@@ -1161,7 +1161,7 @@ $('me-offline').onclick=async()=>{
 
 /* ===== 邮箱登录 + 云同步（测试版） =====
    填入 Supabase 项目的 URL 和 publishable key 后生效；只在 beta. 开头的域名，或地址带 ?beta 时打开。 */
-const CLOUD_CFG={url:'', key:''};
+const CLOUD_CFG={url:'https://ejhxprwjpizcxytsmjri.supabase.co', key:'sb_publishable_MUhVHYIq2s_twHjhg9YKPw_KvkkwKHZ'};
 const CLOUD_ON=(()=>{ try{ const q=new URLSearchParams(location.search); if(q.has('beta')) localStorage.setItem('gd-guide-beta', q.get('beta')==='0'?'0':'1'); return /^beta[.-]/.test(location.hostname) || localStorage.getItem('gd-guide-beta')==='1'; }catch(e){ return /^beta[.-]/.test(location.hostname); } })();
 const CL={client:null,user:null,state:CLOUD_ON?'load':'off',msg:'',last:0,ready:false,timer:null,email:'',sent:false};
 function loadScript(src){ return new Promise((ok,no)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=no; document.head.appendChild(s); }); }

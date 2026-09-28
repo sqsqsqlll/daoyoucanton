@@ -23,3 +23,4 @@ create policy "gd_user_store delete own" on public.gd_user_store
 
 revoke all on public.gd_user_store from anon;
 grant select, insert, update, delete on public.gd_user_store to authenticated;
+revoke truncate, references, trigger on public.gd_user_store from authenticated;
