@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>导游资格证押题卷刷题</title>
+<style>
+:root{
+  --bg:#f6f5f1;--card:#fff;--ink:#1f1f1c;--muted:#6b6a64;--line:#e4e2da;
+  --accent:#2f5d8a;--accent-soft:#e8eff6;--ok:#2e7d4f;--ok-soft:#e6f3ea;--bad:#b3412e;--bad-soft:#f8e9e5;--warn:#a26a12;--warn-soft:#fbf1dc;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#171716;--card:#222220;--ink:#ecebe6;--muted:#9c9a92;--line:#363531;
+  --accent:#7fa9d4;--accent-soft:#25313d;--ok:#6cc08f;--ok-soft:#1f3328;--bad:#e58a77;--bad-soft:#3b2520;--warn:#e0b25c;--warn-soft:#3a3020;}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 120px}
+h1{font-size:20px;margin:8px 0 4px}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+.paper{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.paper h2{font-size:16px;margin:0 0 6px;line-height:1.4}
+.paper .meta{color:var(--muted);font-size:13px;margin-bottom:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 14px;font-size:14px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){.btn.primary{color:#111}}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.4;cursor:default}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.top .bar{display:flex;align-items:center;gap:8px}
+.top .title{flex:1;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{height:4px;background:var(--line);border-radius:4px;margin-top:8px;overflow:hidden}
+.prog>i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;min-height:300px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;padding:3px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);margin-right:6px}
+.qn{font-size:13px;color:var(--muted)}
+.qt{font-size:17px;line-height:1.7;margin:12px 0 16px;white-space:pre-wrap}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:15px;line-height:1.55}
+.opt .k{flex:0 0 26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.opt.multi .k{border-radius:6px}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .k{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .k{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{background:var(--bad);border-color:var(--bad);color:#fff}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.nav .in{max-width:720px;margin:0 auto;display:flex;gap:8px}
+.nav .btn{flex:1;padding:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.cell{height:38px;border-radius:8px;border:1px solid var(--line);background:var(--card);font-size:13px}
+.cell.done{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.cell.cur{outline:2px solid var(--accent);outline-offset:1px}
+.cell.r{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.cell.w{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.cell.e{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.sec{font-size:13px;color:var(--muted);margin:14px 0 6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet{background:var(--bg);width:100%;max-width:720px;max-height:82vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.sheet h3{margin:0 0 6px;font-size:17px}
+.dialog{align-items:center}
+.dialog .sheet{border-radius:16px;max-width:400px;margin:16px}
+.score{display:flex;align-items:baseline;gap:8px;margin:6px 0 4px}
+.score b{font-size:44px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+.stat .l{font-size:12px;color:var(--muted)}
+.stat .v{font-size:16px;font-weight:600;margin-top:2px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 10px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:13px}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rv{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.rv.r{border-left-color:var(--ok)}.rv.w{border-left-color:var(--bad)}.rv.e{border-left-color:var(--warn)}
+.rv .h{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted)}
+.rv .q{font-size:15px;line-height:1.65;margin:8px 0}
+.rv .o{font-size:14px;line-height:1.6;padding:2px 0}
+.rv .o.c{color:var(--ok);font-weight:600}
+.rv .o.x{color:var(--bad);text-decoration:line-through}
+.ans{font-size:14px;margin:8px 0;display:flex;gap:14px;flex-wrap:wrap}
+.ans .ok{color:var(--ok);font-weight:600}.ans .no{color:var(--bad);font-weight:600}
+.exp{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.7;white-space:pre-wrap;color:var(--ink)}
+.exp::before{content:"解析";display:block;font-size:12px;color:var(--muted);margin-bottom:2px}
+.empty{color:var(--muted);text-align:center;padding:30px 0}
+.note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:16px}
+</style>
+</head>
+<body>
+<div id="app" class="wrap"><div class="empty">题库加载中…</div></div>
+<script>
+const TYPE={tf:'判断题',single:'单选题',multi:'多选题'};
+const PTS={tf:.5,single:.5,multi:1};
+const L='ABCDE';
+let DATA=null, S={view:'home', p:0, i:0, ans:{}, submitted:false, filter:'wrong'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function key(p){return 'ldd7-quiz-'+p}
+function save(){try{localStorage.setItem(key(S.p),JSON.stringify({ans:S.ans,i:S.i,submitted:S.submitted}))}catch(e){}}
+function load(p){try{const v=JSON.parse(localStorage.getItem(key(p))||'null');return v||{ans:{},i:0,submitted:false}}catch(e){return {ans:{},i:0,submitted:false}}}
+function qs(){return DATA[S.p].qs}
+function norm(a){return (a||'').split('').sort().join('')}
+function verdict(q){const a=S.ans[q.n];if(!a)return 'e';return norm(a)===norm(q.ans)?'r':'w'}
+
+function home(){
+  S.view='home';
+  let h=`<h1>2026 初级导游资格证 · 押题卷刷题</h1><div class="sub">逐题作答，全部交卷后统一出分数、对错和解析。进度自动保存在本浏览器。</div>`;
+  DATA.forEach((p,k)=>{
+    const st=load(k), done=Object.keys(st.ans).length, n=p.qs.length;
+    h+=`<div class="paper"><h2>${esc(p.name)}</h2>
+    <div class="meta">${n} 题 · 判断 40 / 单选 90 / 多选 35 · 满分 100 · ${st.submitted?'已交卷':done?`已答 ${done}/${n}`:'未开始'}</div>
+    <div class="row">${st.submitted?`<button class="btn primary" onclick="openPaper(${k},'result')">查看成绩与解析</button>`:`<button class="btn primary" onclick="openPaper(${k})">${done?'继续作答':'开始作答'}</button>`}
+    ${done||st.submitted?`<button class="btn ghost" onclick="askReset(${k})">重新开始</button>`:''}</div></div>`;
+  });
+  h+=`<div class="note">计分方式：判断、单选每题 0.5 分；多选每题 1 分，少选、多选、错选均不得分。<br>说明：押题卷（七）科目三四第 82 题在原答案卷中缺失，题目取自题目卷，答案与解析为补充内容。</div>`;
+  $('#app').innerHTML=h; window.scrollTo(0,0);
+}
+function openPaper(k,view){
+  const st=load(k); S.p=k; S.ans=st.ans; S.i=Math.min(st.i||0,DATA[k].qs.length-1); S.submitted=st.submitted;
+  if(view==='result'||S.submitted){S.filter='wrong';result()} else quiz();
+}
+function askReset(k){
+  dialog(`<h3>重新开始？</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">这份卷子的作答记录会被清空。</p>
+  <div class="row" style="justify-content:flex-end"><button class="btn" onclick="closeModal()">取消</button><button class="btn primary" onclick="doReset(${k})">清空重来</button></div>`);
+}
+function doReset(k){try{localStorage.removeItem(key(k))}catch(e){} closeModal(); openPaper(k)}
+
+function quiz(){
+  S.view='quiz';
+  const list=qs(), q=list[S.i], a=S.ans[q.n]||'', done=Object.keys(S.ans).length;
+  const isMulti=q.type==='multi';
+  let opts=q.opts.map((o,j)=>{const l=L[j];const sel=a.includes(l);
+    return `<button class="opt ${isMulti?'multi':''} ${sel?'sel':''}" onclick="pick('${l}')"><span class="k">${q.type==='tf'?(j?'✕':'✓'):l}</span><span>${esc(o)}</span></button>`}).join('');
+  $('#app').innerHTML=`
+  <div class="top"><div class="bar">
+    <button class="btn ghost" onclick="save();home()">‹ 返回</button>
+    <div class="title">${esc(DATA[S.p].name)}</div>
+    <button class="btn" onclick="sheet()">答题卡 ${done}/${list.length}</button></div>
+    <div class="prog"><i style="width:${done/list.length*100}%"></i></div></div>
+  <div class="card">
+    <span class="tag">${TYPE[q.type]}</span><span class="qn">第 ${q.n} / ${list.length} 题 · ${PTS[q.type]} 分</span>
+    <div class="qt">${esc(q.q)}</div>
+    ${opts}
+    ${isMulti?'<div class="hint">多选题：可选多个，再点一次取消</div>':''}
+  </div>
+  <div class="nav"><div class="in">
+    <button class="btn" ${S.i===0?'disabled':''} onclick="go(-1)">上一题</button>
+    ${S.i===list.length-1?`<button class="btn primary" onclick="askSubmit()">交卷</button>`:`<button class="btn primary" onclick="go(1)">下一题</button>`}
+  </div></div>`;
+}
+function pick(l){
+  const q=qs()[S.i];
+  if(q.type==='multi'){let a=S.ans[q.n]||'';a=a.includes(l)?a.replace(l,''):a+l;a=norm(a);if(a)S.ans[q.n]=a;else delete S.ans[q.n];save();quiz();}
+  else{S.ans[q.n]=l;save();quiz();if(S.i<qs().length-1)setTimeout(()=>go(1),220);}
+}
+function go(d){S.i=Math.max(0,Math.min(qs().length-1,S.i+d));save();quiz();window.scrollTo(0,0)}
+function jump(i){S.i=i;closeModal();save();quiz();window.scrollTo(0,0)}
+function sheet(){
+  const list=qs();let h=`<h3>答题卡</h3><div style="font-size:13px;color:var(--muted)">已答 ${Object.keys(S.ans).length} / ${list.length}，点题号跳转</div>`;
+  ['tf','single','multi'].forEach(t=>{h+=`<div class="sec">${TYPE[t]}</div><div class="grid">`;
+    list.forEach((q,i)=>{if(q.type!==t)return;h+=`<button class="cell ${S.ans[q.n]?'done':''} ${i===S.i?'cur':''}" onclick="jump(${i})">${q.n}</button>`});h+='</div>'});
+  h+=`<div class="row" style="margin-top:16px"><button class="btn primary" style="flex:1" onclick="askSubmit()">交卷</button><button class="btn" onclick="closeModal()">继续作答</button></div>`;
+  modal(h);
+}
+function askSubmit(){
+  const left=qs().length-Object.keys(S.ans).length;
+  dialog(`<h3>确认交卷？</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">${left?`还有 <b style="color:var(--bad)">${left}</b> 题未作答，未答按 0 分计。`:'全部题目已作答。'}交卷后将显示成绩和每题解析。</p>
+  <div class="row" style="justify-content:flex-end"><button class="btn" onclick="closeModal()">再检查一下</button><button class="btn primary" onclick="submit()">交卷</button></div>`);
+}
+function submit(){S.submitted=true;save();closeModal();S.filter='wrong';result()}
+
+function result(){
+  S.view='result';
+  const list=qs();let score=0;const by={tf:[0,0,0,0],single:[0,0,0,0],multi:[0,0,0,0]};// right, wrong, empty, total
+  list.forEach(q=>{const v=verdict(q);const b=by[q.type];b[3]++;if(v==='r'){b[0]++;score+=PTS[q.type]}else if(v==='w')b[1]++;else b[2]++});
+  const R=by.tf[0]+by.single[0]+by.multi[0],W=by.tf[1]+by.single[1]+by.multi[1],E=by.tf[2]+by.single[2]+by.multi[2];
+  const f=S.filter;
+  const shown=list.filter(q=>{const v=verdict(q);return f==='all'||(f==='wrong'&&v!=='r')||(f==='right'&&v==='r')||(['tf','single','multi'].includes(f)&&q.type===f)});
+  let h=`<div class="top"><div class="bar"><button class="btn ghost" onclick="home()">‹ 返回</button><div class="title">${esc(DATA[S.p].name)}</div>
+  <button class="btn" onclick="askReset(${S.p})">重做</button></div></div>
+  <div class="paper"><div style="font-size:13px;color:var(--muted)">本卷得分</div>
+  <div class="score"><b>${+score.toFixed(1)}</b><span style="color:var(--muted)">/ 100</span>
+  <span class="tag" style="margin-left:auto;${score>=60?'background:var(--ok-soft);color:var(--ok)':'background:var(--bad-soft);color:var(--bad)'}">${score>=60?'及格':'未及格'}</span></div>
+  <div style="font-size:14px;color:var(--muted)">答对 ${R} · 答错 ${W} · 未答 ${E}（共 ${list.length} 题）</div>
+  <div class="stats">${['tf','single','multi'].map(t=>{const b=by[t];return `<div class="stat"><div class="l">${TYPE[t]}</div><div class="v">${b[0]}/${b[3]}</div><div class="l">${+(b[0]*PTS[t]).toFixed(1)} / ${b[3]*PTS[t]} 分</div></div>`}).join('')}</div>
+  <div class="sec" style="margin-top:4px">对错一览（点题号跳到解析）</div>
+  ${['tf','single','multi'].map(t=>`<div class="grid" style="margin-bottom:8px">${list.filter(q=>q.type===t).map(q=>`<button class="cell ${verdict(q)}" onclick="seeQ(${q.n})">${q.n}</button>`).join('')}</div>`).join('')}
+  </div>
+  <div class="filters">${[['wrong',`错题+未答 ${W+E}`],['all',`全部 ${list.length}`],['right',`答对 ${R}`],['tf','判断'],['single','单选'],['multi','多选']].map(([k,t])=>`<button class="chip ${f===k?'on':''}" onclick="S.filter='${k}';result()">${t}</button>`).join('')}</div>`;
+  h+=shown.length?shown.map(rv).join(''):'<div class="empty">这一栏没有题目 🎉</div>';
+  $('#app').innerHTML=h;
+}
+function rv(q){
+  const v=verdict(q),a=S.ans[q.n]||'';
+  const fmt=s=>q.type==='tf'?(s==='A'?'对':s==='B'?'错':s):s;
+  return `<div class="rv ${v}" id="q${q.n}"><div class="h"><span>${q.n}. ${TYPE[q.type]}</span><span>${v==='r'?'✓ 答对':v==='w'?'✕ 答错':'未作答'}</span></div>
+  <div class="q">${esc(q.q)}</div>
+  ${q.type==='tf'?'':q.opts.map((o,j)=>{const l=L[j];const c=q.ans.includes(l),x=a.includes(l)&&!c;return `<div class="o ${c?'c':''} ${x?'x':''}">${l}. ${esc(o)}</div>`}).join('')}
+  <div class="ans"><span>正确答案：<span class="ok">${fmt(q.ans)}</span></span><span>你的答案：<span class="${v==='r'?'ok':'no'}">${a?fmt(a):'未作答'}</span></span></div>
+  <div class="exp">${esc(q.exp)}</div></div>`;
+}
+function seeQ(n){
+  if(!document.getElementById('q'+n)){S.filter='all';result()}
+  const el=document.getElementById('q'+n);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function modal(h){closeModal();const d=document.createElement('div');d.className='modal';d.id='m';d.innerHTML=`<div class="sheet">${h}</div>`;d.onclick=e=>{if(e.target===d)closeModal()};document.body.appendChild(d)}
+function dialog(h){modal(h);$('#m').classList.add('dialog')}
+function closeModal(){const m=$('#m');if(m)m.remove()}
+document.addEventListener('keydown',e=>{if(S.view!=='quiz'||$('#m'))return;
+  if(e.key==='ArrowRight')go(1);else if(e.key==='ArrowLeft')go(-1);
+  else{const k=e.key.toUpperCase();const q=qs()[S.i];const j=L.indexOf(k);if(j>=0&&j<q.opts.length)pick(k)}});
+fetch('data.json').then(r=>r.json()).then(d=>{DATA=d;home()}).catch(()=>{$('#app').innerHTML='<div class="empty">题库加载失败，请刷新重试。</div>'});
+</script>
+</body>
+</html>
