@@ -95,7 +95,7 @@ const L='ABCDE';
 let DATA=null, S={view:'home', p:0, i:0, ans:{}, submitted:false, filter:'wrong'};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function key(p){return 'ldd7-quiz-'+p}
+function key(p){return DATA[p].key||('ldd7-quiz-'+p)}
 function save(){try{localStorage.setItem(key(S.p),JSON.stringify({ans:S.ans,i:S.i,submitted:S.submitted}))}catch(e){}}
 function load(p){try{const v=JSON.parse(localStorage.getItem(key(p))||'null');return v||{ans:{},i:0,submitted:false}}catch(e){return {ans:{},i:0,submitted:false}}}
 function qs(){return DATA[S.p].qs}
@@ -112,7 +112,7 @@ function home(){
     <div class="row">${st.submitted?`<button class="btn primary" onclick="openPaper(${k},'result')">查看成绩与解析</button>`:`<button class="btn primary" onclick="openPaper(${k})">${done?'继续作答':'开始作答'}</button>`}
     ${done||st.submitted?`<button class="btn ghost" onclick="askReset(${k})">重新开始</button>`:''}</div></div>`;
   });
-  h+=`<div class="note">计分方式：判断、单选每题 0.5 分；多选每题 1 分，少选、多选、错选均不得分。<br>说明：押题卷（七）科目三四第 82 题在原答案卷中缺失，题目取自题目卷，答案与解析为补充内容。</div>`;
+  h+=`<div class="note">计分方式：判断、单选每题 0.5 分；多选每题 1 分，少选、多选、错选均不得分。<br>说明：押题卷（六）科目三四第 137 题、押题卷（七）科目三四第 82 题在原答案卷中缺失，题目取自题目卷，答案与解析为补充内容。</div>`;
   $('#app').innerHTML=h; window.scrollTo(0,0);
 }
 function openPaper(k,view){
