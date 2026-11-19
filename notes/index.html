@@ -89,14 +89,15 @@ td:first-child{font-weight:700;white-space:nowrap}
 <header><a class="home" href="../">← 广东导游备考台</a><h1>导游业务速记 · 互动版</h1><div class="sub">点每一步或每张卡片展开细节。先看口诀回忆内容，再点开核对。</div></header>
 <nav class="tabs" id="tabs"></nav>
 <main id="main"></main>
-<div class="foot">内容整理自《导游业务三色讲义》第四至十章。口诀为整理时自编的记忆提示，不是教材原文。</div>
+<div class="foot">内容整理自《导游业务三色讲义》第四至十章，以及《导游政策法规三色讲义》和政策法规考点汇编；法规三个板块另按新版《旅游投诉处理办法》、《旅游法》原文核对补充。口诀为整理时自编的记忆提示，不是教材原文。</div>
 </div>
 <script src="data.js"></script>
+<script src="law.js"></script>
 <script>
 const N=window.NOTES;
 const COLORS=['c1','c2','c3','c4','c5','c6'];
 const FLOWC={dipei:'c1',quanpei:'c2',lingdui:'c3'};
-const SECC={skills:['c4','c6'],requests:['c1','c2','c3'],problems:['c1','c6','c3','c5','c4'],emergency:['c5','c6','c4','c3']};
+const SECC={skills:['c4','c6'],requests:['c1','c2','c3'],problems:['c1','c6','c3','c5','c4'],emergency:['c5','c6','c4','c3'],fines:['c3','c1','c4','c2','c6','c5','c5'],deadlines:['c1','c3','c2','c6'],filings:['c2','c4']};
 const TABS=[{id:'flow',name:'服务程序'},{id:'compare',name:'易混对比'},...N.sections.map(s=>({id:s.id,name:s.name}))];
 let S={tab:'flow',role:'dipei',hideK:false};
 try{const h=location.hash.slice(1);if(TABS.some(t=>t.id===h))S.tab=h;}catch(e){}
@@ -134,6 +135,7 @@ function render(){
       <div class="gbox">${g.cards.map(it=>card(it,c)).join('')}</div></section>`});
   }
   m.innerHTML=h;document.body.classList.toggle('hide-k',S.hideK);
+  try{const t=document.querySelector('.tab.on');t&&t.scrollIntoView({inline:'center',block:'nearest'})}catch(e){}
 }
 function go(id){S.tab=id;try{history.replaceState(null,'','#'+id)}catch(e){}render();window.scrollTo(0,0)}
 window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(TABS.some(t=>t.id===h)){S.tab=h;render()}});
