@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>导游业务速记（互动版）</title>
+<style>
+:root{
+  --bg:#f6f5f1;--card:#fff;--ink:#1f1f1c;--muted:#6b6a64;--line:#e4e2da;
+  --c1:#2f5d8a;--c1s:#e6eef7;
+  --c2:#2e7d4f;--c2s:#e4f3ea;
+  --c3:#a5521b;--c3s:#fbeee2;
+  --c4:#7a4a9e;--c4s:#f1e9f8;
+  --c5:#b3412e;--c5s:#f9e7e3;
+  --c6:#1f7a7a;--c6s:#e1f2f2;
+  --hl:#fff0b8;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#171716;--card:#222220;--ink:#ecebe6;--muted:#9c9a92;--line:#363531;
+  --c1:#86b1dc;--c1s:#1f2b38;--c2:#77c597;--c2s:#1c2f24;--c3:#e3a06d;--c3s:#35261b;
+  --c4:#c3a0e0;--c4s:#2c2236;--c5:#e98b78;--c5s:#3a221d;--c6:#7fcfcf;--c6s:#1a3131;--hl:#4a4020;}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+header{padding:18px 0 4px}
+.home{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:6px}
+h1{font-size:20px;margin:0 0 4px}
+.sub{color:var(--muted);font-size:13px}
+.tabs{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:12px 0 10px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-size:14px}
+.tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center;margin:14px 0 4px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;font-size:13px}
+.sw{display:flex;gap:6px;flex-wrap:wrap}
+.role{border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font-size:14px}
+.role.on{border-color:var(--rc);background:var(--rs);color:var(--rc);font-weight:600}
+.banner{border-radius:14px;padding:14px 16px;margin:14px 0;background:var(--rs);border:1.5px solid var(--rc)}
+.banner .n{font-size:17px;font-weight:700;color:var(--rc)}
+.banner .r{font-size:18px;font-weight:700;margin:6px 0 4px;letter-spacing:1px}
+.banner .d{font-size:13px;color:var(--muted)}
+/* flow */
+.flow{position:relative;margin:8px 0 0;padding-left:0}
+.step{position:relative;padding-left:46px;padding-bottom:12px}
+.step::before{content:"";position:absolute;left:17px;top:36px;bottom:-2px;width:2px;background:var(--rc);opacity:.35}
+.step:last-child::before{display:none}
+.num{position:absolute;left:0;top:4px;width:36px;height:36px;border-radius:50%;background:var(--rc);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px}
+@media (prefers-color-scheme:dark){.num{color:#111}}
+.tg{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tg>.hd{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;background:none;border:0;text-align:left}
+.tg .tt{font-size:16px;font-weight:600;flex:1;min-width:0}
+.chip{flex:0 0 auto;font-size:12px;padding:3px 9px;border-radius:999px;background:var(--rs);color:var(--rc);font-weight:600;max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.car{flex:0 0 auto;color:var(--muted);transition:transform .2s;font-size:12px}
+.tg.open .car{transform:rotate(90deg)}
+.tg .bd{display:none;padding:2px 14px 14px;border-top:1px dashed var(--line)}
+.tg.open .bd{display:block}
+.tg.open{border-color:var(--rc)}
+.bd ul{margin:10px 0 0;padding-left:18px}
+.bd li{font-size:14.5px;line-height:1.75;margin:4px 0}
+b,strong{background:linear-gradient(transparent 55%,var(--hl) 55%);font-weight:700}
+.kw{display:inline-block;background:var(--rs);color:var(--rc);font-weight:700;border-radius:6px;padding:0 6px;margin:0 1px}
+/* modules */
+.intro{--rc:var(--c5);--rs:var(--c5s);background:var(--card);border:1px solid var(--line);border-left:5px solid var(--ink);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.75;margin:14px 0}
+.formula{--rc:var(--c5);--rs:var(--c5s);border-radius:14px;padding:14px 16px;margin:14px 0;background:var(--c5s);border:1.5px solid var(--c5)}
+.formula .ft{font-weight:700;color:var(--c5);font-size:16px;margin-bottom:6px}
+.formula ul{margin:0;padding-left:18px}.formula li{font-size:14px;line-height:1.75}
+.group{margin:22px 0 6px}
+.gh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.gbar{width:6px;height:26px;border-radius:3px;background:var(--rc)}
+.gh h2{font-size:17px;margin:0;color:var(--rc)}
+.gh .cnt{font-size:12px;color:var(--muted)}
+.gbox{background:var(--rs);border-radius:14px;padding:10px;display:grid;gap:8px}
+/* compare table */
+.tbl{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:13.5px;background:var(--card);border-radius:12px;overflow:hidden}
+th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top;line-height:1.6}
+th{font-size:13px}
+th:nth-child(2){background:var(--c1s);color:var(--c1)}th:nth-child(3){background:var(--c2s);color:var(--c2)}th:nth-child(4){background:var(--c3s);color:var(--c3)}
+th:first-child{background:var(--line)}
+td:first-child{font-weight:700;white-space:nowrap}
+.foot{color:var(--muted);font-size:12px;margin-top:24px;line-height:1.7}
+.quiz .tg .bd{filter:blur(0)}
+.hide-k .chip{color:transparent;background:var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a class="home" href="../">← 广东导游备考台</a><h1>导游业务速记 · 互动版</h1><div class="sub">点每一步或每张卡片展开细节。先看口诀回忆内容，再点开核对。</div></header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot">内容整理自《导游业务三色讲义》第四至十章。口诀为整理时自编的记忆提示，不是教材原文。</div>
+</div>
+<script src="data.js"></script>
+<script>
+const N=window.NOTES;
+const COLORS=['c1','c2','c3','c4','c5','c6'];
+const FLOWC={dipei:'c1',quanpei:'c2',lingdui:'c3'};
+const SECC={skills:['c4','c6'],requests:['c1','c2','c3'],problems:['c1','c6','c3','c5','c4'],emergency:['c5','c6','c4','c3']};
+const TABS=[{id:'flow',name:'服务程序'},{id:'compare',name:'易混对比'},...N.sections.map(s=>({id:s.id,name:s.name}))];
+let S={tab:'flow',role:'dipei',hideK:false};
+try{const h=location.hash.slice(1);if(TABS.some(t=>t.id===h))S.tab=h;}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const md=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/「(.+?)」/g,'「<span class="kw">$1</span>」');
+const cv=c=>`--rc:var(--${c});--rs:var(--${c}s)`;
+function card(item,c,idx){
+  return `<div class="tg" style="${cv(c)}"><button class="hd" onclick="this.parentNode.classList.toggle('open')">
+    <span class="tt">${esc(item.t)}</span><span class="chip">${esc(item.k)}</span><span class="car">▶</span></button>
+    <div class="bd"><ul>${item.d.map(x=>`<li>${md(x)}</li>`).join('')}</ul></div></div>`;
+}
+function tools(){return `<div class="tools"><button class="btn" onclick="all(true)">全部展开</button><button class="btn" onclick="all(false)">全部收起</button>
+  <button class="btn" onclick="S.hideK=!S.hideK;render()">${S.hideK?'显示口诀标签':'遮住口诀标签（自测）'}</button></div>`}
+function all(o){document.querySelectorAll('.tg').forEach(e=>e.classList.toggle('open',o))}
+function render(){
+  document.getElementById('tabs').innerHTML=TABS.map(t=>`<button class="tab ${t.id===S.tab?'on':''}" onclick="go('${t.id}')">${t.name}</button>`).join('');
+  const m=document.getElementById('main');let h='';
+  if(S.tab==='flow'){
+    h+=`<div class="tools sw">${N.flows.map(f=>`<button class="role ${f.id===S.role?'on':''}" style="${cv(FLOWC[f.id])}" onclick="S.role='${f.id}';render()">${f.name} · ${f.steps} 步</button>`).join('')}</div>`;
+    const f=N.flows.find(x=>x.id===S.role),c=FLOWC[f.id];
+    h+=`<div class="banner" style="${cv(c)}"><div class="n">${f.name}服务程序 · ${f.steps} 步</div><div class="r">${esc(f.rhyme)}</div><div class="d">${esc(f.role)}</div></div>`;
+    h+=tools();
+    h+=`<div class="flow" style="${cv(c)}">${f.items.map((it,i)=>`<div class="step"><div class="num">${i+1}</div>${card(it,c)}</div>`).join('')}</div>`;
+  }else if(S.tab==='compare'){
+    const t=N.compare;
+    h+=`<div class="intro">同一个环节三种角色的做法不同，考试最爱在这里出换字题。</div>`;
+    h+=`<div class="tbl"><table><thead><tr>${t.head.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(x=>`<td>${md(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }else{
+    const s=N.sections.find(x=>x.id===S.tab),pal=SECC[s.id]||COLORS;
+    if(s.formula)h+=`<div class="formula"><div class="ft">${esc(s.formula.title)}</div><ul>${s.formula.lines.map(x=>`<li>${md(x)}</li>`).join('')}</ul></div>`;
+    if(s.intro)h+=`<div class="intro">${md(s.intro)}</div>`;
+    h+=tools();
+    s.groups.forEach((g,gi)=>{const c=pal[gi%pal.length];
+      h+=`<section class="group" style="${cv(c)}"><div class="gh"><span class="gbar"></span><h2>${esc(g.name)}</h2><span class="cnt">${g.cards.length} 项</span></div>
+      <div class="gbox">${g.cards.map(it=>card(it,c)).join('')}</div></section>`});
+  }
+  m.innerHTML=h;document.body.classList.toggle('hide-k',S.hideK);
+}
+function go(id){S.tab=id;try{history.replaceState(null,'','#'+id)}catch(e){}render();window.scrollTo(0,0)}
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(TABS.some(t=>t.id===h)){S.tab=h;render()}});
+render();
+</script>
+</body>
+</html>
