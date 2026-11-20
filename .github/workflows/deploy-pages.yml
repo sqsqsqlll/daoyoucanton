@@ -1,0 +1,27 @@
+# 推送到 main 后触发 Cloudflare Pages 部署（daoyou.sqsqsq.online）。
+# Cloudflare 自带的 GitHub 自动部署收不到推送时，靠这个兜底。
+# 需要仓库 Secret：CF_PAGES_DEPLOY_HOOK = Cloudflare Pages 项目 daoyoucanton 的 Deploy hook 地址。
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cf-pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          HOOK: ${{ secrets.CF_PAGES_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::未设置 CF_PAGES_DEPLOY_HOOK，跳过部署"
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK"
